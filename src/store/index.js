@@ -14,6 +14,7 @@ export default new Vuex.Store({
       max_message_length: 0
     },
     connection: null,
+    status: null,
     newMessage: null,
     username: '',
     selected: '',
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     isRoom: state => name => {
       return state.rooms.some((room) => room.name == name);
+    },
+    getConnectionStatus: state => {
+      return state.status;
     },
     getSelected: state => {
       return state.selected;
@@ -67,29 +71,20 @@ export default new Vuex.Store({
         state.newMessage = JSON.parse(event.data);
       }
     },
-    onclose: state => {
-      state.connection.onclose = () => {
-        state.connection = null;
+    catch: state => {
+      state.connection.onclose = event => {
+        state.status = event;
       }
-    },
-    onerror: state => {
-      state.connection.onerror = () => {
-        state.connection = null;
+      state.connection.onerror = event => {
+        state.status = event;
       }
-    },
-    close: (state) => {
-      state.connection.close();
     }
   },
   actions: {
     openConnection: ({ state, commit }) => {
       commit('connect', new WebSocket(state.WS_URL + state.username));
       commit('receive');
-      commit('onclose');
-      commit('onerror');
-    },
-    closeConnection: ({ commit }) => {
-      commit('close');
+      commit('catch');
     },
     getServerSettings: ({ state, commit }) => {
       axios.get(state.baseURL + '/settings')

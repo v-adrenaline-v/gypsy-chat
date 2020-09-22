@@ -19,13 +19,19 @@
       </div>
     </div>
     <div id="editor">
-      <input
-        type="text"
-        placeholder="Message"
-        :maxlength="settings.max_message_length"
-        v-model.trim="text"
-      >
-      <button @click="sendMessage">Send</button>
+      <form @submit.prevent>
+        <input
+          type="text"
+          placeholder="Message"
+          tabindex="-1"
+          :maxlength="settings.max_message_length"
+          v-model.trim="text"
+        >
+        <button
+          tabindex="-1"
+          @click="sendMessage"
+        >Send</button>
+      </form>
     </div>
   </div>
   <div
@@ -33,13 +39,19 @@
     v-else
   >
     <div id="newRoom">
-      <input
-        type="text"
-        placeholder="Name"
-        :maxlength="settings.max_room_title_length"
-        v-model.trim="newRoom"
-      >
-      <button @click="select(newRoom)">Create Room</button>
+      <form @submit.prevent>
+        <input
+          type="text"
+          placeholder="Name"
+          tabindex="-1"
+          :maxlength="settings.max_room_title_length"
+          v-model.trim="newRoom"
+        >
+        <button
+          tabindex="-1"
+          @click="select(newRoom)"
+        >Create Room</button>
+      </form>
     </div>
   </div>
 </template>

@@ -5,6 +5,7 @@
       <input
         type="text"
         placeholder="Search"
+        tabindex="-1"
         v-model.trim="search"
       >
     </div>

@@ -166,6 +166,11 @@ body {
         justify-content: center;
         padding: 0.8rem;
         border-top: 1px solid $border-wrap;
+
+        form {
+          display: flex;
+          flex-grow: 1;
+        }
       }
     }
 

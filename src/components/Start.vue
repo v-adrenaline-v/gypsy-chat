@@ -4,20 +4,26 @@
     v-if="!connection"
   >
     <div id="content">
-      <input
-        type="text"
-        placeholder="Nickname"
-        :maxlength="this.$store.state.settings.max_username_length"
-        v-model.trim="username"
-      >
-      <button @click="enter">Enter</button>
+      <form>
+        <input
+          type="text"
+          placeholder="Nickname"
+          tabindex="-1"
+          :maxlength="this.$store.state.settings.max_username_length"
+          v-model.trim="username"
+        >
+        <button
+          tabindex="-1"
+          @click="enter"
+        >Enter</button>
+      </form>
     </div>
     <div id="backdrop"></div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'start-block',
@@ -25,7 +31,14 @@ export default {
     username: ''
   }),
   computed: {
-    ...mapState(['connection'])
+    ...mapState(['connection']),
+    ...mapGetters(['getConnectionStatus'])
+  },
+  watch: {
+    getConnectionStatus(event) {
+      if (event.type == 'close' || event.type == 'error')
+        this.$store.dispatch('openConnection');
+    }
   },
   methods: {
     enter() {

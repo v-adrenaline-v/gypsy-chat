@@ -21,6 +21,6 @@ export default {
   created() {
     this.$store.dispatch('getServerSettings');
     this.$store.dispatch('getListRooms');
-  },
+  }
 }
 </script>
