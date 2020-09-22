@@ -31,6 +31,7 @@ export default {
     enter() {
       this.$store.commit('setUsername', this.username);
       this.$store.dispatch('openConnection');
+      this.username = '';
     }
   }
 }

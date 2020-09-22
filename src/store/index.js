@@ -53,7 +53,7 @@ export default new Vuex.Store({
     select: (state, name) => {
       state.selected = name;
     },
-    unselect: (state) => {
+    unselect: state => {
       state.selected = '';
     },
     connect: (state, obj) => {
@@ -62,9 +62,19 @@ export default new Vuex.Store({
     send: (state, data) => {
       state.connection.send(data);
     },
-    receive: (state) => {
-      state.connection.onmessage = (event) => {
+    receive: state => {
+      state.connection.onmessage = event => {
         state.newMessage = JSON.parse(event.data);
+      }
+    },
+    onclose: state => {
+      state.connection.onclose = () => {
+        state.connection = null;
+      }
+    },
+    onerror: state => {
+      state.connection.onerror = () => {
+        state.connection = null;
       }
     },
     close: (state) => {
@@ -75,6 +85,8 @@ export default new Vuex.Store({
     openConnection: ({ state, commit }) => {
       commit('connect', new WebSocket(state.WS_URL + state.username));
       commit('receive');
+      commit('onclose');
+      commit('onerror');
     },
     closeConnection: ({ commit }) => {
       commit('close');
