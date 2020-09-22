@@ -1,28 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Start />
+    <ListRooms />
+    <Chat />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Start from './components/Start';
+import ListRooms from './components/ListRooms';
+import Chat from './components/Chat';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Start,
+    ListRooms,
+    Chat
+  },
+  created() {
+    this.$store.dispatch('getServerSettings');
+    this.$store.dispatch('getListRooms');
+  },
 }
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
